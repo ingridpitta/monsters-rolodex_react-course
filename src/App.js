@@ -6,10 +6,12 @@ import './App.css';
 class App extends Component {
   constructor() {
     super();
+
     this.state = {
       monsters:[],
       searchField: '',
     }
+
   }
 
   componentDidMount(){
@@ -18,17 +20,21 @@ class App extends Component {
     .then(users => this.setState({monsters:users}))
   }
 
+  //With Arrow Function there is no need of binding code 
+  handleChange = e => {
+    this.setState({searchField:e.target.value})
+  }
+
   render() {
     const {monsters, searchField } = this.state;
     const filteredMonsters = monsters.filter(monster => monster.name.toLowerCase().includes(searchField.toLowerCase()))
 
     return(
       <div className='App'>
+      <h1> Monsters Rolodex </h1>
       <SearchBox
       placeholder="search monsters"
-      handleChange = {e => {
-        this.setState({searchField:e.target.value})}
-      }
+      handleChange={this.handleChange}
       />
       <CardList monsters={filteredMonsters}/>
       </div>
